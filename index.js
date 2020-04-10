@@ -1,37 +1,21 @@
 let express = require('express')
 let app = express()
-let fs = require('fs')
 
-app.get('/dinosaurs', function(req, res) {
-	let dinosaurs = fs.readFileSync('./dinosaurs.json')
-	let dinoData = JSON.parse(dinosaurs)
-	res.send(dinoData)
-})
+//serve static files
+app.use(express.static('static'))
 
-app.post('/dinosaurs', function(req, res) {
-	let dinosaurs = fs.readFileSync('./dinosaurs.json')
-	let dinoData = JSON.parse(dinosaurs)
+//use ejs
+app.set('view engine', 'ejs')
 
-	dinosaurs.push(req.body)
+app.use(express.urlencoded({extended: false}))
 
-	fs.writeFileSync('/dinosaurs.json', JSON.stringify(dinosaurs))
-
-	res.redirect('/dinosaurs')
-})
-
-app.get('/dinosaurs/:id', function(req, res) {
-	let dinosaurs = fs.readFileSync('./dinosaurs.json')
-	let dinoData = JSON.parse(dinosaurs)
 
 
 //get the array index from our url
 
-let dinoIndex = parseInt(req.params.id)
 
-res.send(dinoData[dinoIndex])
 
-})
-
+app.use('/dinosaurs', require('./controllers/dinosaurs'))
 
 
 app.listen(3000)
