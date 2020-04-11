@@ -9,7 +9,7 @@ let fs = require('fs')
 router.get('/', function(req, res) {
 	let dinosaurs = fs.readFileSync('./dinosaurs.json')
 	let dinoData = JSON.parse(dinosaurs)
-	res.send(dinoData)
+	res.render('index', {dinoData})
 })
 
 router.post('/', function(req, res) {
@@ -25,6 +25,16 @@ router.post('/', function(req, res) {
 
 router.get('/new', (req, res) => {
 	res.render('new.ejs')
+})
+
+router.delete('/:idx', (req, res) => {
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
+
+	dinoData.splice(req.params.idx, 1)
+
+	fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData))
+	res.redirect('/dinosaurs')
 })
 
 router.get('/:id', function(req, res) {

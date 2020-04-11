@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dinos</title>
+</head>
+<body>
+
+	<ul>
+		<% dinoData.forEach((dino, index) => { %>
+		<li><%= dino.name %> is a <%=dino.type %>
+		<form method="post" action="/dinosaurs/<%= index%>/?_method=DELETE">
+		<input type="submit" value="Delete">
+		</form>
+		<% }) %>
+		</li>
+	</ul>
+
+</body>
+</html>
